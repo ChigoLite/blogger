@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import React from 'react';
+import Home from './components/Home'
+import {BrowserRouter,Route,Routes, useNavigate} from 'react-router-dom'
+import Sharedroute from './routes/sharedroute';
+import SingleArticle from './components/singleArticle';
+import Poster from './components/createPost';
+import PostArt from './components/PostArt';
+import Login from './routes/login';
+import {useCustomHooks} from './components/context'
+import Logout from './components/logout';
+const App = () => {
+  
+  const{isAuth}=useCustomHooks()
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  
+ <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<Sharedroute />}>
+          <Route index element={<Home />} />
+      <Route path='/login' element={<Login/>}/>
+        <Route path='/createpost' element={ isAuth ? <PostArt/> : <Login/> }  />
+          <Route path='/single/:id' element={<SingleArticle  />}/>
+        </Route>
+     </Routes>
+</BrowserRouter>  
+    
   );
 }
 

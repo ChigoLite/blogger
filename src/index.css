@@ -1,13 +1,126 @@
 body {
-  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+padding: 0;
+margin: 0;
+box-sizing: border-box;
 }
+html{
+  
+  background-color: #333328;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 800 400'%3E%3Cdefs%3E%3CradialGradient id='a' cx='396' cy='281' r='514' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%23A6A5DD'/%3E%3Cstop offset='1' stop-color='%23333328'/%3E%3C/radialGradient%3E%3ClinearGradient id='b' gradientUnits='userSpaceOnUse' x1='400' y1='148' x2='400' y2='333'%3E%3Cstop offset='0' stop-color='%23D1FFCE' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23D1FFCE' stop-opacity='0.5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23a)' width='800' height='400'/%3E%3Cg fill-opacity='0.5'%3E%3Ccircle fill='url(%23b)' cx='267.5' cy='61' r='300'/%3E%3Ccircle fill='url(%23b)' cx='532.5' cy='61' r='300'/%3E%3Ccircle fill='url(%23b)' cx='400' cy='30' r='300'/%3E%3C/g%3E%3C/svg%3E");
+    background-attachment: fixed;
+    background-size: cover;
+}
+a{
+  text-decoration: none;
+}
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+.navLink{
+  color: inherit;
+}
+
+.App div{
+  text-align: center;
+  height: 200px;
+
+}
+/* body{
+  background: rgb(231, 227, 227);
+} */
+img{
+  max-width: 400px;
+  max-height: 300px;
+  object-fit: cover;
+  margin: 0 auto;
+}
+.image{
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.footer{
+  
+  padding: 20px;
+  height: auto;
+  background-color: #565E45;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 800 400'%3E%3Cdefs%3E%3CradialGradient id='a' cx='396' cy='281' r='514' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' stop-color='%239C4490'/%3E%3Cstop offset='1' stop-color='%23565E45'/%3E%3C/radialGradient%3E%3ClinearGradient id='b' gradientUnits='userSpaceOnUse' x1='400' y1='148' x2='400' y2='333'%3E%3Cstop offset='0' stop-color='%23BBFFC7' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23BBFFC7' stop-opacity='0.5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect fill='url(%23a)' width='800' height='400'/%3E%3Cg fill-opacity='0.22'%3E%3Ccircle fill='url(%23b)' cx='267.5' cy='61' r='300'/%3E%3Ccircle fill='url(%23b)' cx='532.5' cy='61' r='300'/%3E%3Ccircle fill='url(%23b)' cx='400' cy='30' r='300'/%3E%3C/g%3E%3C/svg%3E");
+    background-attachment: fixed;
+    background-size: cover;
+}
+.sharedlayout{
+  width: 100%;
+height: 100%;
+}
+span{
+  color: rgb(112, 48, 112);
+  font: bold;
+}
+.line{
+  height: 6px;
+  width: 100px;
+  margin: 0 auto 0 auto;
+  background: #81d4fa;
+}
+
+/* login */
+.loginCont{
+  background: white;
+  width: 20rem;
+  height: 20rem;
+  margin: auto;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+span{
+  color:white
+}
+.loginbtn{
+  border: 2px solid white;
+  padding: 4px;
+  border-radius: 10px;
+}
+.login{
+
+text-align: center;
+margin-top: 1rem;
+padding-top: 4rem;
+}
+.login > h5{
+  font-size: 1.3rem;
+}
+.login > button{
+  width: 10rem;
+  height: 3rem;
+}
+.logingmail{
+  background: gray;
+  border: 2px solid black;
+  border-radius: 6px;
+  font-size: large;
+  color: white;
+}
+.gmail{
+font-size: 30px;
+}
+/* preview */
+.none{display: none;}
+.display{
+margin-left: 2rem;
+object-fit: cover;
 }
