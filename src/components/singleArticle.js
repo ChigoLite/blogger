@@ -51,7 +51,6 @@ const SingleArticle = () => {
                     
           </Typography>
         </CardContent>
-      <CardActionArea>
     
                         <CardActions>
                             <Stack direction='row' spacing={2}>
@@ -78,7 +77,6 @@ const SingleArticle = () => {
   </Stack>
                                       
       </CardActions>
-      </CardActionArea>
                       </Card>
                       <Stack direction='row' spacing={2}>
 
@@ -90,10 +88,10 @@ const SingleArticle = () => {
                       } color='secondary' variant='contained'>Comment</Button>
                     </Stack>
                     <Typography variant='h4'  sx={{fontFamily:'fantasy'}}>Comments...</Typography>
-                    {comment.map((msg) => {
+                    {comment.map((msg,index) => {
                       const { user, id, createdAt, text } = msg
                       return (
-                        <Stack direction='row' spacing={1}>
+                        <Stack direction='row' spacing={1} key={index}>
                           <Typography variant='subtitle1' sx={{fontFamily:'revert',fontSize:'0.5rem'}}>{user } </Typography>
                           <Typography sx={{textTransform:'capitalize',}}>{text}</Typography>
                         </Stack>
