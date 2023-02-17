@@ -1,27 +1,31 @@
-import React from 'react';
+import React,{useState} from 'react';
 import {useCustomHooks} from './context';
 import {useParams} from 'react-router-dom'
 import { Typography, Container, Box, Paper, 
-  CardActionArea, CardMedia, Card, CardContent, CardActions, Button, Stack
+  CardActionArea, CardMedia, Card, CardContent, CardActions, Button, Stack, TextField, ThemeProvider
 } from '@mui/material';
   import { Firestore } from 'firebase/firestore';
 import Logout from './logout';
 import { FaClock } from 'react-icons/fa' 
 import {FacebookIcon,LinkedinIcon,TwitterIcon,WhatsappIcon,PinterestIcon, FacebookShareButton, WhatsappShareButton, PinterestShareButton, LinkedinShareButton, TwitterShareButton} from 'react-share'
+import Theme from './theme';
 const SingleArticle = () => {
-    const { post} = useCustomHooks()
+  const { post, text, handleText, commentHandle } = useCustomHooks()
+  const[commentId,setCommentId]=useState('')
 
     const { id } = useParams()
   const singleArticle = post.filter((newsDetails) => newsDetails.id === id)
   return (
     <div>
+      <ThemeProvider theme={Theme}>
+
+                  <Container >
       <Logout/>
           {singleArticle.map((news,index) => {
-            const { author, title, avater, date, article, id } = news  
+            const { author, title, avater, date, article, id ,comment} = news  
             let dateitem = date.toDate()
               return (
-                  <Container key={index}>
-                      <Box mt='2'>
+                      <Box key={index} mt='2'>
                           <Paper elavation='6' sx={{textAlign:'center',margin:4}}>
                                <Card sx={{ textAlign:'center' }}>
         <CardContent>
@@ -50,7 +54,7 @@ const SingleArticle = () => {
       <CardActionArea>
     
                         <CardActions>
-                            <Stack display='table-row' spacing={2}>
+                            <Stack direction='row' spacing={2}>
                               <FacebookShareButton >
                               <FacebookIcon />
 
@@ -75,13 +79,35 @@ const SingleArticle = () => {
                                       
       </CardActions>
       </CardActionArea>
-    </Card>
+                      </Card>
+                      <Stack direction='row' spacing={2}>
+
+                      <TextField value={text} onChange={handleText} color='secondary' variant='outlined' size='medium' placeholder='comment here....' />
+                      <Button onClick={() => {
+                        commentHandle(id, comment);
+                        setCommentId(id)
+                      }
+                      } color='secondary' variant='contained'>Comment</Button>
+                    </Stack>
+                    <Typography variant='h4'  sx={{fontFamily:'fantasy'}}>Comments...</Typography>
+                    {comment.map((msg) => {
+                      const { user, id, createdAt, text } = msg
+                      return (
+                        <Stack direction='row' spacing={1}>
+                          <Typography variant='subtitle1' sx={{fontFamily:'revert',fontSize:'0.5rem'}}>{user } </Typography>
+                          <Typography sx={{textTransform:'capitalize',}}>{text}</Typography>
+                        </Stack>
+                      )
+                    })}
 </Paper>
                       </Box>
+                     
 
-               </Container>
-           )   
+                     )   
           })}
+          
+                    </Container>
+          </ThemeProvider>
     </div>
   );
 }

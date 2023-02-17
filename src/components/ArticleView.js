@@ -33,11 +33,12 @@ const Article = () => {
                           return (
         <Grid item xs={12} md={6}  key={id}>
                   <Item>
-                                <Card sx={{ maxWidth: 345, textAlign: 'center', borderRadius: '10px', margin: 'auto', }}>
+                    <Card sx={{ maxWidth: 345, textAlign: 'center', borderRadius: '10px', margin: 'auto', }}>
                                   {
                                     skeleton ?
-                                      (<Skeleton variant="rectangular" width={210} height={118} />):
+                                      (<Skeleton animation='wave' variant="rectangular" width={300} height={118} />):
                                       (
+
                           <CardMedia
                               sx={{ objectFit: 'cover', height: '30rem' }}
           image={avater}
@@ -50,8 +51,8 @@ const Article = () => {
 
                                   {skeleton ? (
                                          <Box sx={{ pt: 0.5 }}>
-              <Skeleton />
-              <Skeleton width="60%" />
+              <Skeleton variant='text'  animation='wave' />
+              <Skeleton variant='rectangular'  animation='wave' />
             </Box>
                                   ) :
                                     
@@ -66,7 +67,10 @@ const Article = () => {
       </CardContent>
                                       ) 
                                   }
-                                  <CardActions>
+                                  {
+                                    skeleton ? 
+                                      (<Skeleton variant='rectangular' animation='wave' />) : (
+                                          <CardActions>
                                     {
                                       isAuth && author.id === auth.currentUser.uid && (
   
@@ -78,6 +82,9 @@ const Article = () => {
                                     }
 
       </CardActions>
+                                  )
+                                  }
+                                
     </Card>
                               </Item>
                               

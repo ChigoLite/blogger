@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import Loader from '../routes/loader';
+// import Loader from '../routes/loader';
 import Article from './ArticleView';
 import { useCustomHooks } from './context';
 import Logout from './logout';
@@ -17,7 +17,7 @@ const Home = () => {
     <>
       <ThemeProvider theme={Theme}>
 
-      {skeleton && <Loader/>}
+      {/* {skeleton && <Loader/>} */}
         <Logout/>
         <Article />
       </ThemeProvider>

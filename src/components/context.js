@@ -2,7 +2,7 @@ import React, {  useContext,useEffect,useState } from 'react';
 import{auth,googleAuth}from '../config'
 import { signInWithPopup, signOut } from 'firebase/auth'
 import { redirect } from 'react-router-dom'
-import { addDoc, getDocs, deleteDoc, collection ,doc,updateDoc, query, orderBy, serverTimestamp} from 'firebase/firestore';
+import { addDoc, getDocs, deleteDoc, collection ,doc,updateDoc, query, orderBy, serverTimestamp, arrayUnion} from 'firebase/firestore';
 import { getDownloadURL, uploadBytes,ref,listAll } from 'firebase/storage'
 import{db,uploader} from '../config'
 const Appcontext=React.createContext()
@@ -18,7 +18,8 @@ const Context = ({ children }) => {
     const [open, setOpen] = useState(false);
     const [deleteArticle, setDeleteArticle] = useState(false);
     const [skeleton, setSkeleton] = useState(true);
-    const[backDroping,setBackDroping]=useState(false)
+  const [backDroping, setBackDroping] = useState(false)
+  const[text,setText]=useState('')
 
 
   const imageList = ref(uploader, `avater/`)
@@ -80,7 +81,7 @@ const deletearticle = async(id, name) => {
         uploadBytes(imageRef, image).then((snaphsot) => {
             setBackDroping(true) 
             getDownloadURL(snaphsot.ref).then((url) => {
-                addDoc(postRef, { title, avater: url, article,date,createdAt:serverTimestamp(), author: { name: auth.currentUser.displayName, id: auth.currentUser.uid } }).then(() => {
+                addDoc(postRef, { title, avater: url, article,date,createdAt:serverTimestamp(),comment:[], author: { name: auth.currentUser.displayName, id: auth.currentUser.uid } }).then(() => {
                     
                     setArticle('')
                     setTitle('')
@@ -107,13 +108,28 @@ const deletearticle = async(id, name) => {
             }
     }
   
-   
+  const handleText = (e) => {
+     setText(e.target.value)
+   }
+  const commentHandle = async (id, comment) => {
     
+    try {
+      if (!text) return;
+      const commentref = doc(db, "user", id)
+      const updateField = { comment:arrayUnion({text,id,createdAt :date,user:auth.currentUser.displayName})}
+      await updateDoc(commentref, updateField)
+      setText('')
+    }
+    catch (error) {
+      console.error(error)
+    }
+      
+    }
 
  
 
     return (
-        <Appcontext.Provider value={{isAuth,getArticle,post, Login,Logout,title,article,imagePreview,titlechange,articlechange,imgupload,imageList,uploading,skeleton,open,handleClickOpen,handleClose,deleteArticle,deletearticle,handleClickDelete,handleCloseDelete,backDroping}
+        <Appcontext.Provider value={{isAuth,getArticle,post, Login,Logout,title,article,imagePreview,titlechange,articlechange,imgupload,imageList,uploading,skeleton,open,handleClickOpen,handleClose,deleteArticle,deletearticle,handleClickDelete,handleCloseDelete,backDroping,text,handleText,commentHandle}
 }>
             {children}
     </Appcontext.Provider>
