@@ -63,23 +63,23 @@ const SingleArticle = () => {
     
                         <CardActions>
                             <Stack direction='row' spacing={1}>
-                              <FacebookShareButton >
+                              <FacebookShareButton url='https://my-porfolio-c92b6.firebaseapp.com/' >
                               <FacebookIcon size={30} />
 
-                              </FacebookShareButton>
-                              <WhatsappShareButton>
+                              </FacebookShareButton >
+                              <WhatsappShareButton url='https://my-porfolio-c92b6.firebaseapp.com/'>
                               <WhatsappIcon size={30} />
 
                               </WhatsappShareButton>
-                              <PinterestShareButton>
+                              <PinterestShareButton url='https://my-porfolio-c92b6.firebaseapp.com/'>
 
                               <PinterestIcon size={30} />
                               </PinterestShareButton>
-                              <LinkedinShareButton>
+                              <LinkedinShareButton url='https://my-porfolio-c92b6.firebaseapp.com/'>
                               <LinkedinIcon size={30} />
                               
                               </LinkedinShareButton>
-                              <TwitterShareButton>
+                              <TwitterShareButton url='https://my-porfolio-c92b6.firebaseapp.com/'>
 
                               <TwitterIcon size={30} />
                               </TwitterShareButton>
