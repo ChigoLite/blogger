@@ -2,12 +2,15 @@ import React, {  useContext,useEffect,useState } from 'react';
 import{auth,googleAuth}from '../config'
 import { signInWithPopup, signOut } from 'firebase/auth'
 import { redirect } from 'react-router-dom'
-import { addDoc, getDocs, deleteDoc, collection ,doc,updateDoc, query, orderBy, serverTimestamp, arrayUnion} from 'firebase/firestore';
+import { addDoc, getDocs, deleteDoc, collection ,doc,updateDoc, query, orderBy, serverTimestamp, onSnapshot} from 'firebase/firestore';
 import { getDownloadURL, uploadBytes,ref,listAll } from 'firebase/storage'
 import{db,uploader} from '../config'
+import { v4 as uuid4 } from 'uuid'
+
 const Appcontext=React.createContext()
 
 let postRef=collection(db,'user')
+let newsLetterRef=collection(db,'newsletter')
 const Context = ({ children }) => {
     const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"))
     const [title, setTitle] = useState('')
@@ -19,13 +22,19 @@ const Context = ({ children }) => {
     const [deleteArticle, setDeleteArticle] = useState(false);
     const [skeleton, setSkeleton] = useState(true);
   const [backDroping, setBackDroping] = useState(false)
-  const[text,setText]=useState('')
+  const[newsLet,setNewsLet]=useState('')
+  const [text, setText] = useState('')
+  const [comment,setComment]=useState([])
+  const [notification, setNotification] = useState(false)
+  const[sub,setSub]=useState(false)
 
 
   const imageList = ref(uploader, `avater/`)
 const date= new Date()
 
-    
+  const handleNewsLet = (e) => {
+      setNewsLet(e.target.value)
+    }
 
     const Login = () => {
         signInWithPopup(auth, googleAuth).then((result) => {
@@ -77,11 +86,11 @@ const deletearticle = async(id, name) => {
   }
     const uploading = () => {
         if (image === null) return;
-         const imageRef = ref(uploader, `avater/${image.name}`)
+         const imageRef = ref(uploader, `avater/${image.name} }`)
         uploadBytes(imageRef, image).then((snaphsot) => {
             setBackDroping(true) 
             getDownloadURL(snaphsot.ref).then((url) => {
-                addDoc(postRef, { title, avater: url, article,date,createdAt:serverTimestamp(),comment:[], author: { name: auth.currentUser.displayName, id: auth.currentUser.uid } }).then(() => {
+                addDoc(postRef, { title, avater: url, article,date,createdAt:serverTimestamp(), author: { name: auth.currentUser.displayName, id: auth.currentUser.uid } }).then(() => {
                     
                     setArticle('')
                     setTitle('')
@@ -94,7 +103,11 @@ const deletearticle = async(id, name) => {
     }    
     
     
+  const newsLetter = () => {
+    addDoc(newsLetterRef, {email:newsLet,createdAt:serverTimestamp()})
+    setNewsLet('')
     
+    }
     
         const getArticle = async () => {
             
@@ -107,29 +120,60 @@ const deletearticle = async(id, name) => {
                console.log(error);
             }
     }
-  
-  const handleText = (e) => {
-     setText(e.target.value)
-   }
-  const commentHandle = async (id, comment) => {
     
-    try {
-      if (!text) return;
-      const commentref = doc(db, "user", id)
-      const updateField = { comment:arrayUnion({text,id,createdAt :date,user:auth.currentUser.displayName})}
-      await updateDoc(commentref, updateField)
-      setText('')
+    const handleText = (e) => {
+      setText(e.target.value)
     }
-    catch (error) {
-      console.error(error)
-    }
+    const commentHandle = async (id, comment) => {
       
+      try {
+        if (!text) return;
+        if (isAuth ) {
+          
+          const commentref = collection(db, "user", id, "comments")
+          const updateField = { text, createdAt: serverTimestamp(), author:{ user: auth.currentUser.displayName, id: auth.currentUser.uid } }
+          await addDoc(commentref, updateField)
+          setText('')
+        } else {
+                    window.location.pathname = '/login'
+
+        }
+
+      }
+
+      catch (error) {
+        console.error(error)
+      }
+        
+  }
+      const getComments = async (id) => {
+        const commentref = collection(db, "user",id,"comments")
+
+        try {
+              const queryC=query(commentref,orderBy("createdAt","desc"))
+                const data = await getDocs(queryC)
+                setComment(data.docs.map((doc)=>({...doc.data(),id:doc.id})))
+        } catch (error) {
+               console.log(error);
+            }
+  }
+  const deltComment = async (pID, id,Aid) => {
+    if (auth.currentUser.uid === Aid) {
+      const deleteCommentRef = doc(db, "user", pID, "comments", id)
+      await deleteDoc(deleteCommentRef)
+      const newComment = comment.filter(item => item.id !== id)
+      setComment(newComment)
     }
+    else {
+      return;
+    }
+  }
+    
 
  
 
     return (
-        <Appcontext.Provider value={{isAuth,getArticle,post, Login,Logout,title,article,imagePreview,titlechange,articlechange,imgupload,imageList,uploading,skeleton,open,handleClickOpen,handleClose,deleteArticle,deletearticle,handleClickDelete,handleCloseDelete,backDroping,text,handleText,commentHandle}
+        <Appcontext.Provider value={{isAuth,getArticle,post, Login,Logout,title,article,imagePreview,titlechange,articlechange,imgupload,imageList,uploading,skeleton,open,handleClickOpen,handleClose,deleteArticle,deletearticle,handleClickDelete,handleCloseDelete,backDroping,text,handleText,commentHandle,handleNewsLet,newsLet,newsLetter,getComments,comment,notification,setNotification,sub,deltComment}
 }>
             {children}
     </Appcontext.Provider>

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Typography,Button,Toolbar,AppBar,Box, Stack, ThemeProvider } from '@mui/material';
+import { Typography,Button,Toolbar,AppBar,Box, Stack, ThemeProvider, Fab } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Slide from '@mui/material/Slide';
 import { useCustomHooks } from '../components/context';
@@ -8,38 +8,39 @@ import Theme from '../components/theme';
 const Header = () => {
    const{isAuth,handleClickOpen}=useCustomHooks()
   return (
+      <>
     <ThemeProvider theme={Theme}>
-
-    <div>
           <Box sx={{ flexGrow: 1 }}>
-      <AppBar color='primary' position="static">
+      <AppBar color='primary' component='nav' sx={{height:'5.4rem'}}>
           <Toolbar>
           <Typography variant="h4" component="div" sx={{ flexGrow: 1 }}>
             <Link className='navLink' to='/'>
-            Daily Trend.
-            </Link>
+<h4 className='header'>viral community</h4>
+                </Link>
             </Typography>
               {
-                isAuth ? <Button sx={{border:2,color:'white'}} onClick={handleClickOpen}  ><span>Log Out</span></Button> :
+                isAuth ? <Fab variant='extended' onClick={handleClickOpen}  ><span>Log Out</span></Fab> :
           <Link to ='/login' className='loginbtn'>
-            <span>Login</span>
+            <Fab >Login</Fab>
             </Link>
                   
               }
             <Link to='/createpost'>
                 
-              <Button variant='contained' sx={{marginLeft:6}} color="inherit">Post Article.</Button>
+              <Fab color='secondary' variant='extended' sx={{marginLeft:2}} >Post Article.</Fab>
           
             </Link>
         </Toolbar>
       </AppBar>
       </Box>
-        <Typography color='secondary' variant='h4' gutterBottom sx={{fontFamily:'fantasy',fontSize:'1.2rem', textAlign: 'center', textTransform: 'capitalize', marginTop:2}}>
+        <Box sx={{ marginTop:'6rem'}}>
+        <Typography color='secondary' variant='h4'  sx={{fontFamily:'fantasy',fontSize:'1.2rem', textAlign: 'center', textTransform: 'capitalize', marginTop:2}}>
 viral blogging, share your thought to the world.
       </Typography>
+      </Box>
       <div className="line"></div>
-</div>
     </ThemeProvider>
+      </>
 
   );
 }

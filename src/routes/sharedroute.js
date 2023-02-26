@@ -9,10 +9,10 @@ const Sharedroute = () => {
       
           <Header/>
         <Outlet /> 
+          <Footer/>
       </div>  
         
 
-          <Footer/>
       </div>
   );
 }
