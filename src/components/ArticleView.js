@@ -15,6 +15,7 @@ const Article = () => {
     const { post, skeleton,handleClickDelete,isAuth } = useCustomHooks()
     
    const[id,setId]=useState('')
+   const[imageName,setImageName]=useState('')
     
    
     const Item = styled(Paper)(({ theme }) => ({
@@ -29,7 +30,7 @@ const Article = () => {
       <Grid sx={{marginTop:'1rem',marginBottom:'1rem'}} container spacing={2}>
             
      {post.map((artcl, index) => {
-                          const{avater,title,article,id,author}=artcl
+                          const{avater,title,article,id,author,imageName}=artcl
                           return (
         <Grid item xs={12} md={6}  key={id}>
                   <Item>
@@ -76,7 +77,8 @@ const Article = () => {
   
                                         <Button onClick={() => {
                                           handleClickDelete();
-                                          setId(id)
+                                                setId(id)
+                                                setImageName(imageName)
                                         }} variant='contained' color='error'>Delete.</Button>                             
 )
                                     }
@@ -93,7 +95,7 @@ const Article = () => {
                       })}
 
         </Grid>
-        <Deletemodal id={ id} />
+        <Deletemodal id={id} imageName={imageName} />
         </Container>
   );
 }

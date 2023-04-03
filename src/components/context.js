@@ -3,7 +3,7 @@ import{auth,googleAuth}from '../config'
 import { signInWithPopup, signOut } from 'firebase/auth'
 import { redirect } from 'react-router-dom'
 import { addDoc, getDocs, deleteDoc, collection ,doc,updateDoc, query, orderBy, serverTimestamp, onSnapshot} from 'firebase/firestore';
-import { getDownloadURL, uploadBytes,ref,listAll } from 'firebase/storage'
+import { getDownloadURL, uploadBytes,ref,listAll,deleteObject } from 'firebase/storage'
 import{db,uploader} from '../config'
 import { v4 as uuid4 } from 'uuid'
 
@@ -78,9 +78,12 @@ setDeleteArticle(true)
           setImage(e.target.files[0])
           setImagePreview(URL.createObjectURL(e.target.files[0]))
     }
-const deletearticle = async(id, name) => {
+  const deletearticle = async (id, imageName) => {
+         const imageRef = ref(uploader, `avater/${imageName} }`)
+  
   const editCollectionRef = doc(db, "user",id)
-    await deleteDoc(editCollectionRef)
+  await deleteDoc(editCollectionRef)
+  await deleteObject(imageRef)
     const newuser = post.filter(item => item.id !== id)
   setPost(newuser)
   }
@@ -90,7 +93,7 @@ const deletearticle = async(id, name) => {
         uploadBytes(imageRef, image).then((snaphsot) => {
             setBackDroping(true) 
             getDownloadURL(snaphsot.ref).then((url) => {
-                addDoc(postRef, { title, avater: url, article,date,createdAt:serverTimestamp(), author: { name: auth.currentUser.displayName, id: auth.currentUser.uid } }).then(() => {
+                addDoc(postRef, {imageName:image.name, title, avater: url, article,date,createdAt:serverTimestamp(), author: { name: auth.currentUser.displayName, id: auth.currentUser.uid } }).then(() => {
                     
                     setArticle('')
                     setTitle('')

@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useCustomHooks } from './context';
 import{auth}from '../config'
 
-const Deletemodal=({id})=> {
+const Deletemodal=({id,imageName})=> {
 
     const {deleteArticle, deletearticle ,handleCloseDelete,post} = useCustomHooks()
   return (
@@ -31,7 +31,7 @@ const Deletemodal=({id})=> {
           <Button variant='contained' color='success' onClick={handleCloseDelete}>Cancel</Button>
                   <Button variant='contained' color='error'  onClick={() => {
                       handleCloseDelete()
-                      deletearticle(id)
+                      deletearticle(id,imageName)
                   }
                   } autoFocus>
             Yes
